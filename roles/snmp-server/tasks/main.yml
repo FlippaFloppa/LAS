@@ -1,0 +1,15 @@
+- name: Copy sources.list config file
+  copy:
+    src: "{{ inventory_hostname }}/sources.list"
+    dest: /etc/apt/sources.list
+- name: "snmp installation"
+  ansible.builtin.apt:
+    name:
+      - snmp
+      - snmp-mibs-downloader
+    update_cache: yes
+- name: "edit snmp.conf"
+  ansible.builtin.replace:
+    path: /etc/snmp/snmp.conf
+    regexp: "mibs :"
+    replace: "#mibs :"

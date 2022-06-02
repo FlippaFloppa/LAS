@@ -1,0 +1,13 @@
+- name: "configure network eth0"
+  ansible.builtin.replace:
+    path: /etc/network/interfaces
+    regexp: 'allow-hotplug'
+    replace: 'auto'
+  notify: Restart Networking
+- name: "configure other interfaces"
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/network/interfaces.d/"
+    validate: "/usr/sbin/ifup --no-act -i %s {{ item }}"
+  with_fileglob: "{{ inventory_hostname }}/eth*"
+  notify: Restart Networking

@@ -1,0 +1,92 @@
+- name: "Slapd configuration"
+  ansible.builtin.debconf:
+    name: slapd
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  with_items:
+    - {question: "slapd/move_old_database", value: true, vtype: select}
+    - {question: "shared/organization", value: "Unibo", vtype: string}
+    - {question: "slapd/no_configuration", value: false, vtype: boolean}
+    - {question: "slapd/domain", value: "labammsis", vtype: string}
+    - {question: "slapd/purge_database", value: true, vtype: boolean}
+    - {question: "slapd/move_old_database", value: true, vtype: boolean}
+    - {question: "slapd/slapd/invalid_config", value: false, vtype: boolean}
+  notify: Restart slapd
+- name: "ldap password"
+  ansible.builtin.debconf:
+    name: slapd
+    question: "{{ item.question }}"
+    value: "{{ item.password }}"
+    vtype: "password"
+  with_items:
+    - { question: "slapd/password1", password: "gennaio.marzo"}
+    - { question: "slapd/password2", password: "gennaio.marzo"}
+  no_log: true
+- name: "Ldap installation"
+  ansible.builtin.apt:
+    name:
+      - slapd
+    update_cache: yes
+- name: "configure libnss-ldap"
+  ansible.builtin.debconf:
+    name: libnss-ldap
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  with_items:
+    - {question: "shared/ldapns/base-dn", value: dc=labammsis, vtype: string}
+    - {question: "libnss-ldap/rootbinddn", value: cn=admin,dc=labammsis, vtype: string}
+    - {question: "libnss-ldap/dblogin", value: "false", vtype: boolean}
+    - {question: "libnss-ldap/confperm", value: false, vtype: boolean}
+    - {question: "libnss-ldap/dbrootlogin", value: false, vtype: boolean}
+    - {question: "shared/ldapns/ldap_version", value: 3, vtype: select}
+    - {question: "libnss-ldap/rootbinddn", value: "cn=admin", vtype: string}
+    - {question: "shared/ldapns/ldap-server", value: "ldapi:///", vtype: string}
+    - {question: "libnss-ldap/override", value: true, vtype: boolean}
+    - {question: "libnss-ldap/nsswitch", value: "", vtype: string}
+- name: "libnss-ldap password"
+  ansible.builtin.debconf:
+    name: libnss-ldap
+    question: "{{ item }}"
+    value: "gennaio.marzo"
+    vtype: "password"
+  with_items:
+    - "libnss-ldap/rootbindpw"
+  no_log: true
+- name: "configure libnss-ldap"
+  ansible.builtin.debconf:
+    name: libpam-ldap
+    question: "{{ item.question }}"
+    value: "{{ item.value }}"
+    vtype: "{{ item.vtype }}"
+  with_items:
+    - {question: "shared/ldapns/base-dn", value: dc=labammsis, vtype: string}
+    - {question: "libpam-ldap/dblogin", value: false, vtype: boolean}
+    - {question: "libpam-ldap/dbrootlogin", value: true, vtype: boolean}
+    - {question: "libpam-ldap/rootbinddn", value: "cn=admin,dc=labammsis", vtype: string}
+    - {question: "shared/ldapns/ldap-server", value: "ldapi:///", vtype: string}
+    - {question: "shared/ldapns/ldap_version", value: 3, vtype: select}
+- name: "libpam-ldap password"
+  ansible.builtin.debconf:
+    name: libpam-ldap
+    question: "{{ item }}"
+    value: "gennaio.marzo"
+    vtype: "password"
+  with_items:
+    - "libpam-ldap/rootbindpw"
+  no_log: true
+- name: "copy files"
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - {src: "{{ inventory_hostname }}/nsswitch.conf", dest: "/etc/nsswitch.conf"}
+    - {src: "{{ inventory_hostname }}/ldap.conf", dest: "/etc/ldap/ldap.conf"}
+- name: "Ldap installation"
+  ansible.builtin.apt:
+    name:
+      - libnss-ldap
+      - libpam-ldap
+    update_cache: yes
+
