@@ -6,7 +6,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-	config.vm.box = "las/bullseye64"
+	config.vm.box = "debian/bullseye64"
 	
 	config.vm.provider "virtualbox" do |vb|
 		vb.linked_clone=true
