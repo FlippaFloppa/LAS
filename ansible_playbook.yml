@@ -1,6 +1,7 @@
 - hosts: all
   become: yes
   roles: 
+    - apt_config
     - configure_network
     - snmp-server
     - snmp-client
@@ -19,10 +20,19 @@
 - hosts: servermain
   become: yes
   roles:
-    - ldap-server
-    - snmp-server
+    - ldap
+- hosts: client1
+  roles:
+    - ldap
+- hosts: server
+  become: yes
+  roles:
+    - ldap
+- hosts: server2
+  become: yes
+  roles:
+    - ldap
 - hosts: client
   become: yes
   roles:
-    - ldap-client
-    - snmp-client
+    - ldap
