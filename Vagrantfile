@@ -21,12 +21,12 @@ Vagrant.configure("2") do |config|
 		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
 		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false	
 	end
-	config.vm.define "servermain" do |machine|
-		machine.vm.hostname = "servermain"
-		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false, mac: "08002709A501"
-	end
-	config.vm.define "server" do |machine|
-		machine.vm.hostname = "server"
+	# config.vm.define "servermain" do |machine|
+	# 	machine.vm.hostname = "servermain"
+	# 	machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false, mac: "08002709A501"
+	# end
+	config.vm.define "server1" do |machine|
+		machine.vm.hostname = "server1"
 		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false
 	end
 	config.vm.define "server2" do |machine|
@@ -38,8 +38,8 @@ Vagrant.configure("2") do |config|
 		machine.vm.hostname = "client1"
 		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
 	end
-	config.vm.define "client" do |machine|
-		machine.vm.hostname = "client"
+	config.vm.define "client2" do |machine|
+		machine.vm.hostname = "client2"
 		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
 	end	
 end

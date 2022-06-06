@@ -1,9 +1,8 @@
 dhcp_clients:
   hosts:
-    client:
     client1:
-    servermain:
-    server:
+    client2:
+    server1:
     server2:
   vars:
     dhcp_interfaces:
