@@ -1,9 +1,7 @@
 dhcp_clients:
-  hosts:
-    client1:
-    client2:
-    server1:
-    server2:
+  children:
+    clients:
+    servers:
   vars:
     dhcp_interfaces:
     - name: "eth1"

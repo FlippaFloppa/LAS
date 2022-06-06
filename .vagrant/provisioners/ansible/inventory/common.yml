@@ -1,9 +1,7 @@
 all:
-  hosts:
-    router:
-    client1:
-    client2:
-    server1:
-    server2:
+  children:
+    clients:
+    servers:
+    routers:
   vars:
     common_folder: "common_files"

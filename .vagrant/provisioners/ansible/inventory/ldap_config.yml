@@ -1,11 +1,7 @@
 ldap_server:
-  hosts:
-    servermain:
-    client1:
-    client:
-    router:
-    server:
-    server2:
+  children:
+    clients:
+    servers:
   vars:
     debconf:
     - question: "slapd/move_old_database"
