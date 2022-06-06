@@ -6,7 +6,7 @@
   notify: Restart Networking
 - name: "copy interfaces static"
   ansible.builtin.copy:
-    src: "{{ inventory_hostname }}/eth_static"
+    src: "{{ common_folder }}/eth_static"
     dest: "/etc/network/interfaces.d/{{ item.name }}"
   loop: "{{ static_interfaces  }}"
   when: static_interfaces is defined
@@ -41,7 +41,7 @@
   when: routes is defined
 - name: "copy interfaces dhcp"
   ansible.builtin.copy:
-    src: "{{ inventory_hostname }}/eth_dhcp"
+    src: "{{ common_folder }}/eth_dhcp"
     dest: "/etc/network/interfaces.d/{{ item.name }}"
   loop: "{{ dhcp_interfaces }}"
   when: dhcp_interfaces is defined

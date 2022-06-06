@@ -22,6 +22,7 @@
   roles:
     - ldap
 - hosts: client1
+  become: yes
   roles:
     - ldap
 - hosts: server
