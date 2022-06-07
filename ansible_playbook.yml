@@ -12,6 +12,12 @@
   #       - vim
   #       - tcpdump
   #     update_cache: yes
+
+- hosts: servers
+  become: yes
+  roles:
+    - ldap
+    
 - hosts: routers
   become: yes
   roles:
