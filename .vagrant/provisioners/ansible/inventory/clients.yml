@@ -1,4 +1,3 @@
 clients:
   hosts:
-    client1:
-    client2:
+    client:

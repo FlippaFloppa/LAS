@@ -16,30 +16,26 @@ Vagrant.configure("2") do |config|
 		ansible.playbook = "ansible_playbook.yml"
   	end
 
-	config.vm.define "router" do |machine|
-		machine.vm.hostname = "router"
+	config.vm.define "router1" do |machine|
+		machine.vm.hostname = "router1"
 		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
 		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false	
 	end
-	# config.vm.define "servermain" do |machine|
+	config.vm.define "router2" do |machine|
+		machine.vm.hostname = "router2"
+		machine.vm.network "private_network", virtualbox__intnet: "LAN3", auto_config: false
+		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false	
+	end
+# config.vm.define "servermain" do |machine|
 	# 	machine.vm.hostname = "servermain"
 	# 	machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false, mac: "08002709A501"
 	# end
-	config.vm.define "server1" do |machine|
-		machine.vm.hostname = "server1"
-		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false
+	config.vm.define "server" do |machine|
+		machine.vm.hostname = "server"
+		machine.vm.network "private_network", virtualbox__intnet: "LAN3", auto_config: false
 	end
-	config.vm.define "server2" do |machine|
-		machine.vm.hostname = "server2"
-		machine.vm.network "private_network", virtualbox__intnet: "LAN2", auto_config: false
-	end
-
-	config.vm.define "client1" do |machine|
-		machine.vm.hostname = "client1"
-		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
-	end
-	config.vm.define "client2" do |machine|
-		machine.vm.hostname = "client2"
+	config.vm.define "client" do |machine|
+		machine.vm.hostname = "client"
 		machine.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
 	end	
 end

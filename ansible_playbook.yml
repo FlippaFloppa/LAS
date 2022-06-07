@@ -12,7 +12,7 @@
   #       - vim
   #       - tcpdump
   #     update_cache: yes
-- hosts: router
+- hosts: routers
   become: yes
   roles:
     - routing
